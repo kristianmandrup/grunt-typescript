@@ -10,6 +10,7 @@ var util = require("./util");
 var watche = require("./watcher");
 var Promise = require("bluebird");
 var _os = require("os");
+var path = require("path");
 function execute(task) {
     var host = task.getHost(), options = task.getOptions(), promise = new Promise(function (resolve, reject) {
         if (options.watch) {
@@ -104,6 +105,13 @@ function compile(task) {
     var start = Date.now(), options = task.getOptions(), host = task.getHost(), targetFiles = getTargetFiles(options);
     task.verbose("- write tsconfig.json");
     writeTsConfig(options, targetFiles, task);
+    if (options.useTsConfig) {
+        task.verbose("- parsing tsconfig.json");
+        var json = task.getGrunt().file.readJSON(options.useTsConfig);
+        var parsedOpts = ts.parseJsonConfigFileContent(json, ts.sys, path.dirname(options.useTsConfig));
+        options.tsOptions = parsedOpts.options;
+        targetFiles = parsedOpts.fileNames;
+    }
     task.verbose("- create program");
     var program = ts.createProgram(targetFiles, options.tsOptions, host);
     var diagnostics = program.getSyntacticDiagnostics();

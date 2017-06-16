@@ -170,6 +170,19 @@ function prepareGenerateTsConfig(opt) {
     }
     return result;
 }
+function prepareUseTsConfig(opt) {
+    var result = false;
+    if (!opt.useTsConfig) {
+        return false;
+    }
+    if (util.isBool(opt.useTsConfig)) {
+        return opt.useTsConfig && 'tsconfig.json';
+    }
+    if (util.isStr(opt.useTsConfig)) {
+        return opt.useTsConfig + "";
+    }
+    return result;
+}
 function prepareJsx(opt) {
     var jsx = (opt.jsx + "").toLowerCase();
     return jsx === "react" ? 2 /* React */ :
@@ -230,6 +243,7 @@ function createGruntOption(source, grunt, gruntFile, logger) {
         watch: prepareWatch(source, getTargetFiles()),
         references: getReferences,
         generateTsConfig: prepareGenerateTsConfig(source),
+        useTsConfig: prepareUseTsConfig(source),
         tsOptions: {
             removeComments: boolOrUndef(source, "removeComments"),
             sourceMap: boolOrUndef(source, "sourceMap"),
