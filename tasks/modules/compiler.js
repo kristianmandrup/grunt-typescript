@@ -101,6 +101,14 @@ function asyncEach(items, callback) {
         exec(0);
     });
 }
+function clean(obj) {
+    Object.getOwnPropertyNames(obj).forEach(function(prop) {
+        if (typeof(obj[prop]) === 'undefined') {
+            delete obj[prop];
+        }
+    });
+    return obj;
+}
 function compile(task) {
     var start = Date.now(), options = task.getOptions(), host = task.getHost(), targetFiles = getTargetFiles(options);
     task.verbose("- write tsconfig.json");
@@ -108,7 +116,7 @@ function compile(task) {
     if (options.useTsConfig) {
         task.verbose("- parsing tsconfig.json");
         var json = task.getGrunt().file.readJSON(options.useTsConfig);
-        var parsedOpts = ts.parseJsonConfigFileContent(json, ts.sys, path.dirname(options.useTsConfig));
+        var parsedOpts = ts.parseJsonConfigFileContent(json, ts.sys, path.dirname(options.useTsConfig), clean(options.tsOptions));
         options.tsOptions = parsedOpts.options;
         targetFiles = parsedOpts.fileNames;
     }

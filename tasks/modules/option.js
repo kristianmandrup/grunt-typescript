@@ -103,7 +103,7 @@ function checkBasePath(opt) {
     return result;
 }
 function prepareTarget(opt) {
-    var result = 0 /* ES3 */;
+    var result = undefined /* ES3 */;
     if (opt.target) {
         var temp = (opt.target + "").toLowerCase();
         if (temp === 'es3') {
@@ -119,7 +119,7 @@ function prepareTarget(opt) {
     return result;
 }
 function prepareModule(opt) {
-    var result = 0 /* None */;
+    var result = undefined /* None */;
     if (opt.module) {
         var temp = (opt.module + "").toLowerCase();
         if (temp === "commonjs" || temp === "node") {
@@ -195,7 +195,7 @@ function prepareModuleResolution(opt) {
 function createGruntOption(source, grunt, gruntFile, logger) {
     var dest = util.normalizePath(gruntFile.dest || ""), singleFile = !!dest && _path.extname(dest) === ".js", targetVersion = prepareTarget(source), basePath = checkBasePath(source), rootDir = util.isStr(source.rootDir) ? source.rootDir : undefined, keepDirectoryHierarchy = boolOrUndef(source, "keepDirectoryHierarchy");
     function getTargetFiles() {
-        return grunt.file.expand(gruntFile.orig.src);
+        return (gruntFile.orig.src && grunt.file.expand(gruntFile.orig.src)) || [];
     }
     function getReferences() {
         var target, binPath = util.getBinDir();
@@ -258,7 +258,7 @@ function createGruntOption(source, grunt, gruntFile, logger) {
             rootDir: rootDir,
             module: prepareModule(source),
             preserveConstEnums: boolOrUndef(source, "preserveConstEnums"),
-            noEmitOnError: boolOrUndef(source, "noEmitOnError", true),
+            noEmitOnError: boolOrUndef(source, "noEmitOnError"),
             suppressImplicitAnyIndexErrors: boolOrUndef(source, "suppressImplicitAnyIndexErrors"),
             experimentalDecorators: boolOrUndef(source, "experimentalDecorators"),
             emitDecoratorMetadata: boolOrUndef(source, "emitDecoratorMetadata"),
