@@ -201,14 +201,14 @@ function writeAbort(str) {
 }
 exports.writeAbort = writeAbort;
 function writeError(str) {
-    console.log(">> ".red + str.trim().replace(/\r/g, '').replace(/\n/g, "\n>> ".red));
+    console.log(str);
 }
 exports.writeError = writeError;
 function writeInfo(str) {
-    console.log(">> ".cyan + str.trim().replace(/\r/g, '').replace(/\n/g, "\n>> ".cyan));
+    console.log(str);
 }
 exports.writeInfo = writeInfo;
 function writeWarn(str) {
-    console.log(">> ".yellow + str.trim().replace(/\r/g, '').replace(/\n/g, "\n>> ".yellow));
+    console.log(str);
 }
 exports.writeWarn = writeWarn;
