@@ -1,16 +1,26 @@
 {
-    "compilerOptions": {
-        "outDir": "tasks",
-        "target": "ES5",
-        "module": "commonjs",
-        "noEmitOnError": true,
-        "diagnostics": true,
-        "noLib": true,
-        "experimentalDecorators": true
-    },
-    "files": [
-        "src/index.ts",
-        "node_modules/typescript/lib/lib.core.d.ts",
-        "typings/lib.support.d.ts"
-    ]
+  "compilerOptions": {
+    "outDir": "tasks",
+    "module": "commonjs",
+    "target": "es6",
+    "lib": [
+      "es2017"
+    ],
+    "sourceMap": true,
+    "allowJs": true,
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "experimentalDecorators": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+  ]
 }
