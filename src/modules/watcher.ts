@@ -1,10 +1,13 @@
-import * as gts from './task';
+export interface Watcher {
+  start(): void
+}
+
 import * as util from './util';
 
 let _path: NodeJS.Path = require('path'),
   _fs: NodeJS.FileSystem = require('fs');
 
-export function createWatcher(watchPaths: string[], callback: (targets: { [key: string]: { mtime: number; ev: string } }, done: () => void) => void): gts.Watcher {
+export function createWatcher(watchPaths: string[], callback: (targets: { [key: string]: { mtime: number; ev: string } }, done: () => void) => void): Watcher {
 
   let chokidar: any = require('chokidar'),
     watcher: any,

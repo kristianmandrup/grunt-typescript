@@ -107,16 +107,19 @@ const watcher = createWatcher(watchPath, (files, done) => {
 ```
 
 You easily could wrap this with `Promise` suppport for using `async/await` or `.then()`
-For custom tasks, see the `execute` function of `compiler.ts`
+`createWatcher` returns a `Watcher` with the following interface:
 
 ```js
-import * as gts from './task';
-
-export function execute(task: gts.Task): Promise<any> {
+interface Watcher {
+  start(): void
 }
 ```
 
-The `Task` class is a specific task wrapper for Grunt, but you can write your own to suit your specific needs (or target integration).
+Simply call `start` to start it.
+
+```js
+watcher.start()
+```
 
 ## Options
 

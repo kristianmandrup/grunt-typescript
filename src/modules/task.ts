@@ -1,14 +1,12 @@
-///<reference path="../../typings/grunt.d.ts" />
-///<reference path="../../typings/typescript.d.ts" />
-import * as ts from "typescript";
-import * as option from "./option";
-import * as host from "./host";
+import * as ts from 'typescript';
+import * as option from './option/grunt';
+import * as host from './host';
 
 function prepareStackTrace(error: any, structuredStackTrace: any) {
   let lines = [];
 
   for (let trace of structuredStackTrace) {
-    lines.push(`${trace.getMethodName() || trace.getFunctionName() || "<anonymous>"}[L${trace.getLineNumber()}] `);
+    lines.push(`${trace.getMethodName() || trace.getFunctionName() || '<anonymous>'}[L${trace.getLineNumber()}] `);
   }
   return lines;
   //
@@ -19,7 +17,7 @@ function prepareStackTrace(error: any, structuredStackTrace: any) {
   //
   //  return {
   //    // method name
-  //    name: trace.getMethodName() || trace.getFunctionName() || "<anonymous>",
+  //    name: trace.getMethodName() || trace.getFunctionName() || '<anonymous>',
   //    // file name
   //    file: trace.getFileName(),
   //    // line number
@@ -75,7 +73,7 @@ export class Task implements Logger {
   verbose(message: string, stack?: boolean) {
     this._grunt.verbose.writeln(`${message} [${Date.now() - this._initTime}ms]`.grey);
     if (stack) {
-      this._grunt.verbose.writeln(getTrace().join("\n").grey);
+      this._grunt.verbose.writeln(getTrace().join('\n').grey);
     }
   }
 
@@ -118,6 +116,3 @@ export interface CompilerOptions {
   generateTsConfig: boolean | string;
 }
 
-export interface Watcher {
-  start(): void
-}
