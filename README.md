@@ -4,14 +4,14 @@ grunt-typescript
 
 [![NPM](https://nodei.co/npm/grunt-typescript.png?downloads=true)](https://nodei.co/npm/grunt-typescript/)
 
-Compile TypeScript in Grunt
+Task manager for TypeScript in Grunt. Can be used to compile typescript using grunt, but also for general purpose watching of TypeScript and triggering (grunt) tasks.
 
 [Release Note](CHANGELOG.md)
 
 Important!
 ----------
 ``
-BasePath option has been deprecated. Method for determining an output directory has been changed in the same way as the TSC. Please re-set output directory with the new rootDir option or use keepDirectoryHierachy option.However, keepDirectoryHierachy option would not be available long.
+`basePath` option has been deprecated. Method for determining an output directory has been changed in the same way as the TSC. Please re-set output directory with the new `rootDir` option or use keepDirectoryHierachy option.However, `keepDirectoryHierachy` option would not be available long.
 ``
 
 ## Documentation
@@ -73,6 +73,50 @@ grunt.initConfig({
   ...
 });
 ```
+
+## Using outside Grunt
+
+Many of the internal functions and classes are now exported from `modules`. You can use this logic for general purpose watching to trigger custom tasks (or services) outside of Grunt.
+
+```js
+{
+  createWatcher,
+  execute,
+  Task,
+  Logger,
+  CompilerHost,
+  CompilerOptions,
+  WatchOptions,
+  prepareWatch,
+  createGruntOption,
+  prepareTarget
+} from 'grunt-typescript/modules'
+```
+
+The internal watcher to compile on change is configured as follows:
+
+```js
+const watcher = createWatcher(watchPath, (files, done) => {
+  try {
+    startCompile(Object.keys(files))
+  } catch (err) {
+
+  }
+  done()
+});
+```
+
+You easily could wrap this with `Promise` suppport for using `async/await` or `.then()`
+For custom tasks, see the `execute` function of `compiler.ts`
+
+```js
+import * as gts from './task';
+
+export function execute(task: gts.Task): Promise<any> {
+}
+```
+
+The `Task` class is a specific task wrapper for Grunt, but you can write your own to suit your specific needs (or target integration).
 
 ## Options
 
@@ -231,7 +275,7 @@ If keepDirectoryHierarchy option is true, it is output as follows.
 --- /to
 ----- /typescript
 ------- /files
---------- *.ts 
+--------- *.ts
 ```
 
 If keepDirectoryHierarchy option is false or not set, it is output as follows.
@@ -239,7 +283,7 @@ It is same way as the tsc.
 
 ```
 /bin
-- *.ts 
+- *.ts
 ```
 
 
